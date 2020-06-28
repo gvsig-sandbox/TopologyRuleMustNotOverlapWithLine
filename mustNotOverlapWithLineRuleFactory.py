@@ -19,7 +19,7 @@ class MustNotOverlapWithLineRuleFactory(AbstractTopologyRuleFactory):
         AbstractTopologyRuleFactory.__init__(
             self,
             "MustNotOverlapWithLineRule",
-            "Must not overlap with another line.",
+            "Must Not Overlap With",
             "This rule requires lines not to overlap.",
             ListBuilder().add(Geometry.TYPES.LINE).add(Geometry.TYPES.MULTILINE).asList(),
             ListBuilder().add(Geometry.TYPES.LINE).add(Geometry.TYPES.MULTILINE).asList()

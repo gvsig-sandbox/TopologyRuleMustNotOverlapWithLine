@@ -27,14 +27,14 @@ class MustNotOverlapWithLineRule(AbstractTopologyRule):
         self.addAction(MarkLineAction())
     
     def overlaps(self, buffer1, theDataSet2):
-        result = [False, None]
+        result = [False, []]
         if theDataSet2.getSpatialIndex() != None:
             for featureReference in theDataSet2.query(buffer1):
                 feature2 = featureReference.getFeature()
                 line2 = feature2.getDefaultGeometry()
-                if line2.intersects(buffer1) and line2.intersection(buffer1).getLength() > 0.0:
-                    result = [True, feature2]
-                    break
+                if line2.intersects(buffer1) and line2.intersection(buffer1).perimeter() > 0.0:
+                    result[0] = True
+                    result[1].append(feature2)
         else:
             if self.expression == None:
                 self.expression = ExpressionEvaluatorLocator.getManager().createExpression()
@@ -63,9 +63,10 @@ class MustNotOverlapWithLineRule(AbstractTopologyRule):
                     )
                 ).toString()
             )
-            feature2 = theDataSet2.findFirst(self.expression)
-            if feature2 != None:
-                result = [True, feature2]
+            features2 = theDataSet2.findAll(self.expression)
+            for feature2 in features2:
+                result[0] = True
+                result[1].append(feature2)
         return result
     
     def check(self, taskStatus, report, feature1):
@@ -82,19 +83,20 @@ class MustNotOverlapWithLineRule(AbstractTopologyRule):
                         buffer1 = line1
                     result = self.overlaps(buffer1, theDataSet2)
                     if result[0]:
-                        report.addLine(self,
-                            self.getDataSet1(),
-                            self.getDataSet2(),
-                            line1,
-                            line1,
-                            feature1.getReference(),
-                            result[1].getReference(), # feature2
-                            -1,
-                            -1,
-                            False,
-                            "The line overlaps.",
-                            ""
-                        )
+                        for i in range(0, len(result[1])):
+                            report.addLine(self,
+                                self.getDataSet1(),
+                                self.getDataSet2(),
+                                line1,
+                                line1,
+                                feature1.getReference(),
+                                result[1][i].getReference(), # feature2
+                                -1,
+                                -1,
+                                False,
+                                "The line overlaps.",
+                                ""
+                            )
                 else:
                     if geometryType1.getType() == geom.MULTILINE or geometryType1.isTypeOf(geom.MULTILINE):
                         n1 = line1.getPrimitivesNumber()
@@ -105,19 +107,20 @@ class MustNotOverlapWithLineRule(AbstractTopologyRule):
                                 buffer1 = point1.getCurveAt(i)
                             result = self.overlaps(buffer1, theDataSet2)
                             if result[0]:
-                                report.addLine(self,
-                                    self.getDataSet1(),
-                                    self.getDataSet2(),
-                                    line1,
-                                    line1.getCurveAt(i),
-                                    feature1.getReference(), 
-                                    result[1].getReference(), # feature2
-                                    -1,
-                                    -1,
-                                    False,
-                                    "The line overlaps.",
-                                    ""
-                                )
+                                for i in range(0, len(result[1])):
+                                    report.addLine(self,
+                                        self.getDataSet1(),
+                                        self.getDataSet2(),
+                                        line1,
+                                        line1,
+                                        feature1.getReference(),
+                                        result[i][1].getReference(), # feature2
+                                        -1,
+                                        -1,
+                                        False,
+                                        "The line overlaps.",
+                                        ""
+                                    )
             else:
                 report.addLine(self,
                     self.getDataSet1(),
