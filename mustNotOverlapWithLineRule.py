@@ -114,7 +114,7 @@ class MustNotOverlapWithLineRule(AbstractTopologyRule):
                                         line1,
                                         line1,
                                         feature1.getReference(),
-                                        result[i][1].getReference(), # feature2
+                                        result[1][i].getReference(), # feature2
                                         -1,
                                         -1,
                                         False,
