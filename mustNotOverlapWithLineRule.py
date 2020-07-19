@@ -104,7 +104,7 @@ class MustNotOverlapWithLineRule(AbstractTopologyRule):
                             if tolerance1 > 0:
                                 buffer1 = line1.getCurveAt(i).buffer(tolerance1)
                             else:
-                                buffer1 = point1.getCurveAt(i)
+                                buffer1 = line1.getCurveAt(i)
                             result = self.overlaps(buffer1, theDataSet2)
                             if result[0]:
                                 for i in range(0, len(result[1])):
