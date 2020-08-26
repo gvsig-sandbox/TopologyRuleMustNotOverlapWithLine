@@ -2,7 +2,7 @@
     "id": "MustNotOverlapWithLine",
     "name": "Must Not Overlap With",
     "description": [ 
-        "<img src=\"@@@_d/mustBeCoveredByBoundaryOf.png\">\n",
+        "<img src=\"@@@_d/mustNotOverlapWith.png\">\n",
         "For this rule there are 2 layers, ",
         "one is taken as the input layer and the other is the coverage layer. ",
         "The rule requires that the lines in the input layer ",
