@@ -1,0 +1,34 @@
+{
+    "id": "MustNotOverlapWithLine",
+    "name": "Must Not Overlap With",
+    "description": [ 
+        "<img src=\"@@@_d/mustNotOverlapWith.png\">\n",
+        "For this rule there are 2 layers, ",
+        "one is taken as the input layer and the other is the coverage layer. ",
+        "The rule requires that the lines in the input layer ",
+        "must not overlap with any of the lines from the coverage layer, ",
+        "if this is not the case the error report is created. ",
+        "The lines of the input layer are taken with a certain tolerance, ",
+        "so a buffer is calculated where the radius of this buffer is the tolerance."
+    ],
+    "actions" : {
+        "DeleteLine": {
+            "name" : "Delete Line",
+            "description": [ 
+                "This action deletes the line errors, these are the overlaped lines. ",
+                "Delete the entities that do not comply with the rule, ",
+                "always taking account the established tolerance. ",
+                "The lines to delete can be selected individually."
+            ]
+        },
+        "MarkLine": {
+            "name" : "Mark Line",
+            "description": [ 
+                "This action marks the portion of the lines errors, that overlaps. ",
+                "Mark the portion of the entities that do not comply with the rule, ",
+                "always taking account the established tolerance. ",
+                "The lines to mark can be selected individually."
+            ]
+        }
+    }
+}
